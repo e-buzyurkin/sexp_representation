@@ -19,6 +19,14 @@ public class ElementNode extends Node {
         return true;
     }
 
+    public int getChildrenNumber() {
+        return childNodes.size();
+    }
+
+    public Node getChild(int index) {
+        return childNodes.get(index);
+    }
+
     public String getName() {
         return name;
     }
