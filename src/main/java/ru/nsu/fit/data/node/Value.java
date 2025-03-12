@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 public class Value {
     private Object value;
@@ -17,8 +17,5 @@ public class Value {
 
     public String asString() {
         return value.toString();
-    }
-    public void setValue(Object value) {
-        this.value = value;
     }
 }
