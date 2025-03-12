@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'antlr'
 }
 
 group = 'ru.nsu.fit'
@@ -12,7 +13,23 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.36'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.36'
+
+    implementation 'org.antlr:antlr4-runtime:4.9.3'
+    antlr 'org.antlr:antlr4:4.9.3'
 }
+
+generateGrammarSource {
+    maxHeapSize = "128m"
+    arguments += ['-package', 'ru.nsu.fit', '-visitor', '-listener']
+    outputDirectory = new File("build/generated-src/antlr/main/ru/nsu/fit".toString())
+}
+compileJava.dependsOn generateGrammarSource
 
 test {
     useJUnitPlatform()

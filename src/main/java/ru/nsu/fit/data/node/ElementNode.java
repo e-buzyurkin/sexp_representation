@@ -1,10 +1,16 @@
-package ru.nsu.fit.data;
+package ru.nsu.fit.data.node;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 
 public class ElementNode extends Node {
+    @Getter
     private final List<Attribute> attributes = new ArrayList<>();
     private final List<Node> childNodes = new ArrayList<>();
+    @Getter
+    @Setter
     private String name;
 
     public ElementNode(String name) {
@@ -17,14 +23,6 @@ public class ElementNode extends Node {
 
     public boolean isElement() {
         return true;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = Objects.requireNonNull(name, "Element name cannot be null");
     }
 
     public void addAttribute(Attribute attribute) {

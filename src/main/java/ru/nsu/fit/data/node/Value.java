@@ -1,17 +1,24 @@
-package ru.nsu.fit.data;
+package ru.nsu.fit.data.node;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class Value {
-    private final Object value;
+    private Object value;
+
 
     public Value(String value) { this.value = value; }
     public Value(double value) { this.value = value; }
     public Value(long value) { this.value = value; }
 
-    public Object getValue() {
-        return value;
-    }
-
     public String asString() {
         return value.toString();
+    }
+    public void setValue(Object value) {
+        this.value = value;
     }
 }

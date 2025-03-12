@@ -1,10 +1,9 @@
 package ru.nsu.fit;
 
-import ru.nsu.fit.data.Attribute;
-import ru.nsu.fit.data.ElementNode;
-import ru.nsu.fit.data.Node;
-import ru.nsu.fit.data.Value;
-import ru.nsu.fit.data.ValueNode;
+import ru.nsu.fit.data.node.Attribute;
+import ru.nsu.fit.data.node.ElementNode;
+import ru.nsu.fit.data.node.Value;
+import ru.nsu.fit.data.node.ValueNode;
 
 public class Main {
     public static void main(String[] args) {
