@@ -17,22 +17,37 @@ public class ElementNode extends Node {
         this.name = Objects.requireNonNull(name, "Element name cannot be null");
     }
 
+
     public boolean isValue() {
         return false;
     }
 
+
     public boolean isElement() {
         return true;
     }
+
+
+    public int getChildrenNumber() {
+        return childNodes.size();
+    }
+
+
+    public Node getChild(int index) {
+        return childNodes.get(index);
+    }
+
 
     public void addAttribute(Attribute attribute) {
         attributes.removeIf(a -> a.getName().equals(attribute.getName()));
         attributes.add(attribute);
     }
 
+
     public Attribute getAttributeByName(String name) {
         return attributes.stream().filter(a -> a.getName().equals(name)).findFirst().orElse(null);
     }
+
 
     public void addChildNode(Node node) {
         Objects.requireNonNull(node, "Child node cannot be null");
@@ -42,6 +57,7 @@ public class ElementNode extends Node {
         childNodes.add(node);
         node.setParent(this);
     }
+
 
     public void removeChildNode(Node node) {
         Objects.requireNonNull(node, "Child node cannot be null");
