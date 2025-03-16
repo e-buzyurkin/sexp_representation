@@ -68,7 +68,7 @@ class DataWalker implements DataListener {
 
     @Override
     public void exitAttr(DataParser.AttrContext ctx) {
-        this.attribute.setValue(ctx.STRING().getText());
+        this.attribute.setValue(Util.processEscapingCharsFromInput(ctx.STRING().getText()));
         ((ElementNode) this.nodes.lastElement()).addAttribute(attribute);
         this.attribute = null;
     }
@@ -90,7 +90,7 @@ class DataWalker implements DataListener {
     public void exitValue(DataParser.ValueContext ctx) {
         Value value = new Value();
         if (ctx.STRING() != null) {
-            value.setValue(ctx.getText());
+            value.setValue(Util.processEscapingCharsFromInput(ctx.getText()));
         } else if (ctx.INT() != null) {
             value.setValue(Long.parseLong(ctx.getText()));
         } else if (ctx.DOUBLE() != null) {
@@ -98,6 +98,16 @@ class DataWalker implements DataListener {
         }
         ValueNode valueNode = new ValueNode(value);
         this.addNodeInTree(valueNode);
+    }
+
+    @Override
+    public void enterList(DataParser.ListContext ctx) {
+
+    }
+
+    @Override
+    public void exitList(DataParser.ListContext ctx) {
+
     }
 
     public Node getDataNode() {

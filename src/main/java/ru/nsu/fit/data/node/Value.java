@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -14,6 +16,7 @@ public class Value {
     public Value(String value) { this.value = value; }
     public Value(double value) { this.value = value; }
     public Value(long value) { this.value = value; }
+    public Value(List<Double> value) { this.value = value; }
 
     public String asString() {
         return value.toString();
