@@ -1,0 +1,7 @@
+(garden {name="Sunny Grove" location="Countryside"}
+  (tree {species="Apple" color="Red"}
+    "apple Jonagold"
+    "apple Honeycrisp")
+  (tree {species="Pears"}
+    "Concorde")
+)
