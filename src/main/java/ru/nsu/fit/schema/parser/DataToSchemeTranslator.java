@@ -125,13 +125,13 @@ public class DataToSchemeTranslator {
                     throw new RuntimeException("Value cannot have any nested elements.");
                 }
             }
-            case "type" -> {
-                Attribute attribute = elementNode.getAttributeByName("type_name");
+            case "simple-type" -> {
+                Attribute attribute = elementNode.getAttributeByName("type-name");
                 if (attribute == null) {
-                    throw new RuntimeException("Type must have a \"type_name\" attribute.");
+                    throw new RuntimeException("Type must have a \"type-name\" attribute.");
                 }
                 String typeName = attribute.getValue();
-                attribute = elementNode.getAttributeByName("element_name");
+                attribute = elementNode.getAttributeByName("element-name");
                 SchemaElementNode type = new SchemaElementNode();
                 if (attribute != null) {
                     type = type.setName(attribute.getValue());

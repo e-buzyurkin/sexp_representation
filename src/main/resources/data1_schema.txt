@@ -1,0 +1,13 @@
+(schema
+    (simple-type {type-name="apples"}
+        (value {base-type="string" pattern="apple: *"}))
+    (element {name="garden"}
+        (attribute {name="name" use="optional"})
+        (attribute {name="location" use="optional"})
+
+        (element {name="tree" type="apples"}
+            (attribute {name="species" use="required"})
+            (attribute {name="color" use="optional"}))
+    )
+
+)

@@ -10,11 +10,10 @@ expr_name: NAME;
 attrs: '{' (attr )* attr '}';
 attr: attr_name '=' STRING;
 attr_name: NAME;
-value: STRING | INT | DOUBLE | list;
+value: STRING | INT | DOUBLE;
 
-NAME: [A-Za-z] [A-Za-z0-9_]*;
+NAME: [A-Za-z] [A-Za-z0-9_-]*;
 
-list: '[' value (',' value)* ']';
 
 STRING
     : '"' (ESC | SAFECODEPOINT)* '"'

@@ -31,7 +31,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Node dataNode = DataReader.parseData(new FileReader("src/main/resources/data1.txt"));
-        SchemaNode schemaNode = SchemaReader.parseSchema(new FileReader("src/main/resources/data_xml.txt"));
+        SchemaNode schemaNode = SchemaReader.parseSchema(new FileReader("src/main/resources/data1_schema.txt"));
 
         boolean isValid = SchemaValidator.validate(dataNode, schemaNode);
         System.out.println("Data validation result: " + isValid);

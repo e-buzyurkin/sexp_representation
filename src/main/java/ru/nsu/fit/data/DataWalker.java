@@ -100,16 +100,6 @@ class DataWalker implements DataListener {
         this.addNodeInTree(valueNode);
     }
 
-    @Override
-    public void enterList(DataParser.ListContext ctx) {
-
-    }
-
-    @Override
-    public void exitList(DataParser.ListContext ctx) {
-
-    }
-
     public Node getDataNode() {
         return parentNode;
     }

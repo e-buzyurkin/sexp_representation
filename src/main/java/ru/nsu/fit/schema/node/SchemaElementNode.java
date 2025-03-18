@@ -58,9 +58,9 @@ public class SchemaElementNode extends SchemaNode {
     }
 
     public SchemaElementNode setName(String name) {
-        if (name == null) {
-            throw new NullPointerException("parameter name must not be null");
-        }
+//        if (name == null) {
+//            throw new NullPointerException("parameter name must not be null");
+//        }
         this.name = name;
         return this;
     }
