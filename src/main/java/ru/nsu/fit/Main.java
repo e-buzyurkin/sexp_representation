@@ -2,8 +2,10 @@ package ru.nsu.fit;
 
 import ru.nsu.fit.data.node.*;
 import ru.nsu.fit.data.*;
+import ru.nsu.fit.schema.node.SchemaNode;
+import ru.nsu.fit.schema.parser.SchemaReader;
+import ru.nsu.fit.schema.validator.SchemaValidator;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -27,9 +29,13 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         Node dataNode = DataReader.parseData(new FileReader("src/main/resources/data1.txt"));
+        SchemaNode schemaNode = SchemaReader.parseSchema(new FileReader("src/main/resources/data_xml.txt"));
+
+        boolean isValid = SchemaValidator.validate(dataNode, schemaNode);
+        System.out.println("Data validation result: " + isValid);
+
         showTheData(dataNode, "");
-        System.out.println();
     }
 }

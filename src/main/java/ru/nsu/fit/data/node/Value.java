@@ -5,14 +5,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import ru.nsu.fit.schema.type.ValueType;
 
 @Setter
 @Getter
 @NoArgsConstructor
 public class Value {
     private Object value;
-
-
+    private String string_value = null;
+    private Double double_value = null;
+    private Long integer_value = null;
+    private ValueType valueType = null;
     public Value(String value) { this.value = value; }
     public Value(double value) { this.value = value; }
     public Value(long value) { this.value = value; }
@@ -20,5 +23,9 @@ public class Value {
 
     public String asString() {
         return value.toString();
+    }
+
+    public ValueType getValueType() {
+        return valueType;
     }
 }
