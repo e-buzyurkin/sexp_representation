@@ -13,6 +13,7 @@ import ru.nsu.fit.schema.type.ValueType;
 public class Value {
     private Object value;
     private ValueType valueType = null;
+
     public Value(String value) {
         this.value = value;
         this.valueType = ValueType.STRING;
@@ -28,9 +29,5 @@ public class Value {
 
     public String asString() {
         return value.toString();
-    }
-
-    public ValueType getValueType() {
-        return valueType;
     }
 }
