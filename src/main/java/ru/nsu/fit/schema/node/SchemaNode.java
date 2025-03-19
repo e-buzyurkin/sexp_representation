@@ -3,8 +3,8 @@ package ru.nsu.fit.schema.node;
 import java.security.InvalidParameterException;
 
 public abstract class SchemaNode {
-    private int minOccurs = 1;
-    private int maxOccurs = 1;
+    private int minOccurs = 0;
+    private int maxOccurs = Integer.MAX_VALUE;
 
     public abstract boolean isValue();
 

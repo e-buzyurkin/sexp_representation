@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import ru.nsu.fit.DataListener;
 import ru.nsu.fit.DataParser;
 import ru.nsu.fit.data.node.*;
+import ru.nsu.fit.schema.type.ValueType;
 
 import java.util.Stack;
 
@@ -91,10 +92,13 @@ class DataWalker implements DataListener {
         Value value = new Value();
         if (ctx.STRING() != null) {
             value.setValue(Util.processEscapingCharsFromInput(ctx.getText()));
+            value.setValueType(ValueType.STRING);
         } else if (ctx.INT() != null) {
             value.setValue(Long.parseLong(ctx.getText()));
+            value.setValueType(ValueType.INT);
         } else if (ctx.DOUBLE() != null) {
             value.setValue(Double.parseDouble(ctx.getText()));
+            value.setValueType(ValueType.DOUBLE);
         }
         ValueNode valueNode = new ValueNode(value);
         this.addNodeInTree(valueNode);

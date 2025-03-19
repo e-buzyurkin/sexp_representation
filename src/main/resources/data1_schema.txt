@@ -9,5 +9,4 @@
             (attribute {name="species" use="required"})
             (attribute {name="color" use="optional"}))
     )
-
 )

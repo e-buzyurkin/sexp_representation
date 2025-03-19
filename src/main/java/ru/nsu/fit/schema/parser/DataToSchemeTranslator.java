@@ -95,7 +95,7 @@ public class DataToSchemeTranslator {
                 }
             }
             case "value" -> {
-                Attribute attribute = elementNode.getAttributeByName("type");
+                Attribute attribute = elementNode.getAttributeByName("base-type");
                 if (attribute != null) {
                     SchemaValueNode schemaValueNode = new SchemaValueNode();
                     switch (attribute.getValue()) {
