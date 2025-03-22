@@ -1,7 +1,10 @@
 package ru.nsu.fit.schema.node;
 
+import lombok.Getter;
+
 import java.security.InvalidParameterException;
 
+@Getter
 public abstract class SchemaNode {
     private int minOccurs = 0;
     private int maxOccurs = Integer.MAX_VALUE;
@@ -31,11 +34,4 @@ public abstract class SchemaNode {
         this.maxOccurs = Integer.MAX_VALUE;
     }
 
-    public int getMinOccurs() {
-        return minOccurs;
-    }
-
-    public int getMaxOccurs() {
-        return maxOccurs;
-    }
 }
