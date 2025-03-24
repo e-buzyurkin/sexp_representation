@@ -3,6 +3,7 @@ package ru.nsu.fit.schema.parser;
 import ru.nsu.fit.data.node.Attribute;
 import ru.nsu.fit.data.node.ElementNode;
 import ru.nsu.fit.data.node.Node;
+import ru.nsu.fit.exceptions.IllegalSchemaException;
 import ru.nsu.fit.names.SchemaNames;
 import ru.nsu.fit.schema.attribute.*;
 import ru.nsu.fit.schema.node.*;
@@ -20,7 +21,7 @@ public class DataToSchemeTranslator {
         return translator.getSchema();
     }
 
-    private void translateNode(Node node, SchemaElementNode root) {
+    private void translateNode(Node node, SchemaElementNode root) throws IllegalSchemaException {
         ElementNode elementNode = (ElementNode) node;
         switch (elementNode.getName()) {
             case SchemaNames.SCHEMA -> {
@@ -36,7 +37,7 @@ public class DataToSchemeTranslator {
                 if (attribute != null) {
                     SchemaElementNode type = types.get(attribute.getValue());
                     if (type == null) {
-                        throw new RuntimeException("Type " + attribute.getValue() + " hasn't been declared.");
+                        throw new IllegalSchemaException("Type " + attribute.getValue() + " hasn't been declared.");
                     }
                     schemaElementNode.setName(type.getName());
                     for (var i : type.getAttributes()) {
@@ -74,10 +75,10 @@ public class DataToSchemeTranslator {
                     }
                     root.addAttribute(schemaAttribute);
                 } else {
-                    throw new RuntimeException("Attribute must have a name.");
+                    throw new IllegalSchemaException("Attribute must have a name.");
                 }
                 if (elementNode.getChildrenNumber() > 0) {
-                    throw new RuntimeException("Attribute cannot have any nested elements.");
+                    throw new IllegalSchemaException("Attribute cannot have any nested elements.");
                 }
             }
             case SchemaNames.VALUE -> {
@@ -93,13 +94,13 @@ public class DataToSchemeTranslator {
                     root.addChildNode(schemaValueNode);
                 }
                 if (elementNode.getChildrenNumber() > 0) {
-                    throw new RuntimeException("Value cannot have any nested elements.");
+                    throw new IllegalSchemaException("Value cannot have any nested elements.");
                 }
             }
             case SchemaNames.SIMPLETYPE -> {
                 Attribute attribute = elementNode.getAttributeByName(SchemaNames.TYPENAME);
                 if (attribute == null) {
-                    throw new RuntimeException("Type must have a \"type-name\" attribute.");
+                    throw new IllegalSchemaException("Type must have a \"type-name\" attribute.");
                 }
                 String typeName = attribute.getValue();
                 attribute = elementNode.getAttributeByName(SchemaNames.ELEMENTNAME);
@@ -118,7 +119,7 @@ public class DataToSchemeTranslator {
         }
     }
 
-    private SchemaNode setOccurs(SchemaNode schemaNode, ElementNode elementNode) {
+    private SchemaNode setOccurs(SchemaNode schemaNode, ElementNode elementNode) throws IllegalSchemaException {
         Attribute attribute = elementNode.getAttributeByName(SchemaNames.MINOCCURS);
         if (attribute != null) {
             int minOccurs = Integer.parseInt(attribute.getValue());
@@ -132,16 +133,16 @@ public class DataToSchemeTranslator {
                             Integer.parseInt(attribute.getValue()));
                 }
             } else {
-                throw new RuntimeException("Both minOccurs and maxOccurs must be specified.");
+                throw new IllegalSchemaException("Both minOccurs and maxOccurs must be specified.");
             }
         }
 
         return schemaNode;
     }
 
-    private SchemaNode getSchema() throws Exception {
+    private SchemaNode getSchema() throws IllegalSchemaException {
         if (schema == null || schema.getChildrenNumber() != 1) {
-            throw new Exception("schema must have exactly 1 not complex type element");
+            throw new IllegalSchemaException("schema must have exactly 1 not complex type element");
         }
         return schema.getChild(0);
     }
