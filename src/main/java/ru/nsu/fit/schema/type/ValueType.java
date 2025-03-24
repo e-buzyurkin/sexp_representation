@@ -3,5 +3,8 @@ package ru.nsu.fit.schema.type;
 public enum ValueType {
     STRING,
     INT,
-    DOUBLE
+    DOUBLE,
+    ARRAY_STRING,
+    ARRAY_INT,
+    ARRAY_DOUBLE
 }

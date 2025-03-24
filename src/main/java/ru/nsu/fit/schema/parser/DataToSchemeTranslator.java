@@ -102,6 +102,9 @@ public class DataToSchemeTranslator {
                         case "string" -> schemaValueNode.setValueType(ValueType.STRING);
                         case "int" -> schemaValueNode.setValueType(ValueType.INT);
                         case "double" -> schemaValueNode.setValueType(ValueType.DOUBLE);
+                        case "array_string" -> schemaValueNode.setValueType(ValueType.ARRAY_STRING);
+                        case "array_int" -> schemaValueNode.setValueType(ValueType.ARRAY_INT);
+                        case "array_double" -> schemaValueNode.setValueType(ValueType.ARRAY_DOUBLE);
                     }
                     attribute = elementNode.getAttributeByName("minOccurs");
                     if (attribute != null) {
