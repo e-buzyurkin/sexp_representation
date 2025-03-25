@@ -1,5 +1,6 @@
 package ru.nsu.fit.schema.node;
 
+import lombok.Getter;
 import ru.nsu.fit.schema.attribute.SchemaAttribute;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.Collection;
 public class SchemaElementNode extends SchemaNode {
     private final ArrayList<SchemaNode> childNodes = new ArrayList<>();
     private final ArrayList<SchemaAttribute> attributes = new ArrayList<>();
+    @Getter
     private String name;
 
     @Override
@@ -63,10 +65,6 @@ public class SchemaElementNode extends SchemaNode {
 //        }
         this.name = name;
         return this;
-    }
-
-    public String getName() {
-        return this.name;
     }
 
     public SchemaElementNode addAttribute(SchemaAttribute attribute) {

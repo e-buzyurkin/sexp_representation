@@ -1,7 +1,11 @@
 package ru.nsu.fit.schema.node;
 
+import lombok.Getter;
+import lombok.Setter;
 import ru.nsu.fit.schema.type.ValueType;
 
+@Getter
+@Setter
 public class SchemaValueNode extends SchemaNode {
     ValueType type = null;
 
@@ -13,14 +17,5 @@ public class SchemaValueNode extends SchemaNode {
     @Override
     public boolean isElement() {
         return false;
-    }
-
-    public SchemaValueNode setValueType(ValueType type) {
-        this.type = type;
-        return this;
-    }
-
-    public ValueType getType() {
-        return type;
     }
 }
