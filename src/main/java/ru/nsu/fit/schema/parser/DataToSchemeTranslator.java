@@ -5,6 +5,7 @@ import ru.nsu.fit.data.node.ElementNode;
 import ru.nsu.fit.data.node.Node;
 import ru.nsu.fit.schema.attribute.*;
 import ru.nsu.fit.schema.node.*;
+import ru.nsu.fit.schema.type.SimpleType;
 import ru.nsu.fit.schema.type.ValueType;
 
 import java.util.HashMap;
@@ -103,46 +104,46 @@ public class DataToSchemeTranslator {
                         case "int" -> schemaValueNode.setValueType(ValueType.INT);
                         case "double" -> schemaValueNode.setValueType(ValueType.DOUBLE);
                     }
-                    attribute = elementNode.getAttributeByName("minOccurs");
-                    if (attribute != null) {
-                        int minOccurs = Integer.parseInt(attribute.getValue());
-                        attribute = elementNode.getAttributeByName("maxOccurs");
-                        if (attribute != null) {
-                            if (attribute.getValue().equals("unbounded")) {
-                                schemaValueNode.setMinOccursWithMaxOccursUnbounded(minOccurs);
-                            } else {
-                                schemaValueNode.setOccurs(
-                                        minOccurs,
-                                        Integer.parseInt(attribute.getValue()));
-                            }
-                        } else {
-                            throw new RuntimeException("Both minOccurs and maxOccurs must be specified.");
-                        }
-                    }
                     root.addChildNode(schemaValueNode);
-                }
-                if (elementNode.getChildrenNumber() > 0) {
-                    throw new RuntimeException("Value cannot have any nested elements.");
                 }
             }
             case "simple-type" -> {
-                Attribute attribute = elementNode.getAttributeByName("type-name");
-                if (attribute == null) {
+                Attribute typeNameAttr = elementNode.getAttributeByName("type-name");
+                if (typeNameAttr == null) {
                     throw new RuntimeException("Type must have a \"type-name\" attribute.");
                 }
-                String typeName = attribute.getValue();
-                attribute = elementNode.getAttributeByName("element-name");
+                String typeName = typeNameAttr.getValue();
+
+                Attribute baseTypeAttr = elementNode.getAttributeByName("base-type");
+                if (baseTypeAttr == null) {
+                    throw new RuntimeException("SimpleType must have a \"base-type\" attribute.");
+                }
+
+                ValueType valueType;
+                switch (baseTypeAttr.getValue()) {
+                    case "string" -> valueType = ValueType.STRING;
+                    case "int" -> valueType = ValueType.INT;
+                    case "double" -> valueType = ValueType.DOUBLE;
+                    default -> throw new RuntimeException("Unknown base-type: " + baseTypeAttr.getValue());
+                }
+
+                String pattern = null;
+                if (valueType == ValueType.STRING) {
+                    Attribute patternAttr = elementNode.getAttributeByName("pattern");
+                    pattern = (patternAttr != null) ? patternAttr.getValue() : null;
+                }
+
+                SimpleType simpleType = new SimpleType(valueType, pattern);
+
                 SchemaElementNode type = new SchemaElementNode();
-                if (attribute != null) {
-                    type = type.setName(attribute.getValue());
+                type.setSimpleType(simpleType);
+
+                Attribute elementNameAttr = elementNode.getAttributeByName("element-name");
+                if (elementNameAttr != null) {
+                    type.setName(elementNameAttr.getValue());
                 }
 
                 types.put(typeName, type);
-
-                for (int i = 0; i < elementNode.getChildrenNumber(); i++) {
-                    Node child = elementNode.getChild(i);
-                    translateNode(child, type);
-                }
             }
         }
     }

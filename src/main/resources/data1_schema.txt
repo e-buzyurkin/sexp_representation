@@ -1,6 +1,5 @@
 (schema
-    (simple-type {type-name="apples"}
-        (value {base-type="string" pattern="apple: *"}))
+    (simple-type {type-name="apples" base-type="string" pattern="apple.*"})
     (element {name="garden"}
         (attribute {name="name" use="optional"})
         (attribute {name="location" use="optional"})

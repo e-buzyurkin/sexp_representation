@@ -1,6 +1,7 @@
 package ru.nsu.fit.schema.node;
 
 import ru.nsu.fit.schema.attribute.SchemaAttribute;
+import ru.nsu.fit.schema.type.SimpleType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,6 +10,7 @@ public class SchemaElementNode extends SchemaNode {
     private final ArrayList<SchemaNode> childNodes = new ArrayList<>();
     private final ArrayList<SchemaAttribute> attributes = new ArrayList<>();
     private String name;
+    private SimpleType simpleType;
 
     @Override
     public boolean isValue() {
@@ -58,9 +60,6 @@ public class SchemaElementNode extends SchemaNode {
     }
 
     public SchemaElementNode setName(String name) {
-//        if (name == null) {
-//            throw new NullPointerException("parameter name must not be null");
-//        }
         this.name = name;
         return this;
     }
@@ -75,5 +74,13 @@ public class SchemaElementNode extends SchemaNode {
         }
         attributes.add(attribute);
         return this;
+    }
+    public SchemaElementNode setSimpleType(SimpleType simpleType) {
+        this.simpleType = simpleType;
+        return this;
+    }
+
+    public SimpleType getSimpleType() {
+        return simpleType;
     }
 }

@@ -7,6 +7,7 @@ import ru.nsu.fit.schema.attribute.SchemaAttribute;
 import ru.nsu.fit.schema.node.SchemaElementNode;
 import ru.nsu.fit.schema.node.SchemaNode;
 import ru.nsu.fit.schema.node.SchemaValueNode;
+import ru.nsu.fit.schema.type.ValueType;
 
 public class SchemaValidator {
     public static boolean validate(Node data, SchemaNode schema) {
@@ -23,7 +24,11 @@ public class SchemaValidator {
     }
 
     private static boolean validateAsValue(ValueNode data, SchemaValueNode schema) {
-        return schema.getType() == null || data.getValue().getValueType() == schema.getType();
+        ValueType expectedType = schema.getType();
+        if (expectedType == null) {
+            return true;
+        }
+        return data.getValue().getValueType() == expectedType;
     }
 
     private static boolean validateAsElement(ElementNode data, SchemaElementNode schema) {
