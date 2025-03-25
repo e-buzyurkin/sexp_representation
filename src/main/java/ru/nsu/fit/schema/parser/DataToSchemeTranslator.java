@@ -87,11 +87,14 @@ public class DataToSchemeTranslator {
                 Attribute attribute = elementNode.getAttributeByName(SchemaNames.BASETYPE);
                 if (attribute != null) {
                     SchemaValueNode schemaValueNode = new SchemaValueNode();
-                    ValueType valueType = null;
+                    ValueType valueType;
                     switch (attribute.getValue()) {
                         case "string" -> valueType = ValueType.STRING;
                         case "int" -> valueType = ValueType.INT;
                         case "double" -> valueType = ValueType.DOUBLE;
+                        case "array_string" -> valueType = ValueType.ARRAY_STRING;
+                        case "array_int" -> valueType = ValueType.ARRAY_INT;
+                        case "array_double" -> valueType = ValueType.ARRAY_DOUBLE;
                         default -> throw new IllegalSchemaException("Value type " + attribute.getValue() + " is not supported.");
                     }
                     schemaValueNode.setType(valueType);

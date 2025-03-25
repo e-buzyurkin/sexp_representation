@@ -21,14 +21,19 @@ public class SimpleType {
 
     private void parsePattern() {
         if (pattern == null) return;
-        if (valueType == ValueType.STRING) {
-            regexPattern = Pattern.compile(pattern);
-        } else if (valueType == ValueType.INT) {
-            min = Double.parseDouble(pattern.split(" ")[0]);
-            max = Double.parseDouble(pattern.split(" ")[1]);
-        } else if (valueType == ValueType.DOUBLE) {
-            min = Double.parseDouble(pattern.split(" ")[0]);
-            max = Double.parseDouble(pattern.split(" ")[1]);
+        
+        switch (valueType) {
+            case STRING -> {
+                regexPattern = Pattern.compile(pattern);
+            }
+            case DOUBLE, INT -> {
+                min = Double.parseDouble(pattern.split(" ")[0]);
+                max = Double.parseDouble(pattern.split(" ")[1]);
+            }
+            case ARRAY_INT, ARRAY_DOUBLE, ARRAY_STRING -> {
+                min = Integer.parseInt(pattern.split(" ")[0]);
+                max = Integer.parseInt(pattern.split(" ")[1]);
+            }
         }
     }
 

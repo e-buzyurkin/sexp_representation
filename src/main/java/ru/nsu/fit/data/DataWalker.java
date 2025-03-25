@@ -8,7 +8,11 @@ import ru.nsu.fit.DataParser;
 import ru.nsu.fit.data.node.*;
 import ru.nsu.fit.schema.type.ValueType;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 class DataWalker implements DataListener {
     private Node parentNode;
@@ -99,9 +103,62 @@ class DataWalker implements DataListener {
         } else if (ctx.DOUBLE() != null) {
             value.setValue(Double.parseDouble(ctx.getText()));
             value.setValueType(ValueType.DOUBLE);
+        } else if (ctx.array_double() != null) {
+            value = Value.ofDoubleArray(
+                    Arrays.stream(ctx.getText().substring(1, ctx.getText().length() - 1).split(","))
+                    .map(Double::parseDouble)
+                    .collect(Collectors.toList())
+            );
+            value.setValueType(ValueType.ARRAY_DOUBLE);
+        } else if (ctx.array_int() != null) {
+            value = Value.ofIntArray(
+                    Arrays.stream(ctx.getText().substring(1, ctx.getText().length() - 1).split(","))
+                            .map(Long::parseLong)
+                            .collect(Collectors.toList())
+            );
+            value.setValueType(ValueType.ARRAY_INT);
+        } else if (ctx.array_string() != null) {
+            String withoutSqrPars = ctx.getText().substring(1, ctx.getText().length() - 1);
+            if (withoutSqrPars.isEmpty()) {
+                value = Value.ofStringArray(Collections.emptyList());
+            } else {
+                value = Value.ofStringArray(
+                        List.of(withoutSqrPars.split(",")));
+            }
+            value.setValueType(ValueType.ARRAY_STRING);
         }
         ValueNode valueNode = new ValueNode(value);
         this.addNodeInTree(valueNode);
+    }
+
+    @Override
+    public void enterArray_string(DataParser.Array_stringContext ctx) {
+
+    }
+
+    @Override
+    public void exitArray_string(DataParser.Array_stringContext ctx) {
+
+    }
+
+    @Override
+    public void enterArray_int(DataParser.Array_intContext ctx) {
+
+    }
+
+    @Override
+    public void exitArray_int(DataParser.Array_intContext ctx) {
+
+    }
+
+    @Override
+    public void enterArray_double(DataParser.Array_doubleContext ctx) {
+
+    }
+
+    @Override
+    public void exitArray_double(DataParser.Array_doubleContext ctx) {
+
     }
 
     public Node getDataNode() {

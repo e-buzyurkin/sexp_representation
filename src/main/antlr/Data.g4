@@ -10,7 +10,11 @@ expr_name: NAME;
 attrs: '{' (attr )* attr '}';
 attr: attr_name '=' STRING;
 attr_name: NAME;
-value: STRING | INT | DOUBLE;
+value: STRING | INT | DOUBLE | array_string | array_int | array_double;
+
+array_string: '[' (STRING (',' STRING)*)? ']';
+array_int: '[' (INT (',' INT)*)? ']';
+array_double: '[' (DOUBLE (',' DOUBLE)*)? ']';
 
 NAME: [A-Za-z] [A-Za-z0-9_-]*;
 

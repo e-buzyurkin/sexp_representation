@@ -31,4 +31,25 @@ public class Value {
     public String toString() {
         return value.toString();
     }
+
+    public static Value ofStringArray(List<String> value) {
+        Value v = new Value();
+        v.value = value;
+        v.valueType = ValueType.ARRAY_STRING;
+        return v;
+    }
+
+    public static Value ofIntArray(List<Long> value) {
+        Value v = new Value();
+        v.value = value;
+        v.valueType = ValueType.ARRAY_INT;
+        return v;
+    }
+
+    public static Value ofDoubleArray(List<Double> value) {
+        Value v = new Value();
+        v.value = value;
+        v.valueType = ValueType.ARRAY_DOUBLE;
+        return v;
+    }
 }
