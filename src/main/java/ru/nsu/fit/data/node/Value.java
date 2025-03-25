@@ -52,12 +52,4 @@ public class Value {
         v.valueType = ValueType.ARRAY_DOUBLE;
         return v;
     }
-
-    @Override
-    public String toString() {
-        if (value == null) {
-            return "null";
-        }
-        return value.toString();
-    }
 }

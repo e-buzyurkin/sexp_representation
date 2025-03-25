@@ -9,6 +9,7 @@ import ru.nsu.fit.data.node.*;
 import ru.nsu.fit.schema.type.ValueType;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
@@ -117,8 +118,13 @@ class DataWalker implements DataListener {
             );
             value.setValueType(ValueType.ARRAY_INT);
         } else if (ctx.array_string() != null) {
-            value = Value.ofStringArray(
-                    List.of(ctx.getText().substring(1, ctx.getText().length() - 1).split(",")));
+            String withoutSqrPars = ctx.getText().substring(1, ctx.getText().length() - 1);
+            if (withoutSqrPars.isEmpty()) {
+                value = Value.ofStringArray(Collections.emptyList());
+            } else {
+                value = Value.ofStringArray(
+                        List.of(withoutSqrPars.split(",")));
+            }
             value.setValueType(ValueType.ARRAY_STRING);
         }
         ValueNode valueNode = new ValueNode(value);

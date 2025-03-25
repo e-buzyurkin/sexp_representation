@@ -10,6 +10,8 @@ import ru.nsu.fit.schema.node.SchemaValueNode;
 import ru.nsu.fit.schema.type.SimpleType;
 import ru.nsu.fit.schema.type.ValueType;
 
+import java.util.List;
+
 public class SchemaValidator {
     public static boolean validate(Node data, SchemaNode schema) {
         if ((data.isElement() && schema.isValue()) || (data.isValue() && schema.isElement())) {
@@ -40,6 +42,9 @@ public class SchemaValidator {
                 }
                 case DOUBLE -> {
                     return simpleType.validate((double) data.getValue().getValue());
+                }
+                case ARRAY_INT, ARRAY_DOUBLE, ARRAY_STRING -> {
+                    return simpleType.validate(((List<?>) data.getValue().getValue()).size());
                 }
             }
         }
