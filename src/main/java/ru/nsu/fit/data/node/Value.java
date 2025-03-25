@@ -27,7 +27,8 @@ public class Value {
         this.valueType = ValueType.INT;
     }
 
-    public String asString() {
+    @Override
+    public String toString() {
         return value.toString();
     }
 }

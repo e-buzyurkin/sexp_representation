@@ -3,10 +3,12 @@ package ru.nsu.fit.schema.parser;
 import ru.nsu.fit.data.node.Attribute;
 import ru.nsu.fit.data.node.ElementNode;
 import ru.nsu.fit.data.node.Node;
+import ru.nsu.fit.data.node.Value;
 import ru.nsu.fit.exceptions.IllegalSchemaException;
 import ru.nsu.fit.names.SchemaNames;
 import ru.nsu.fit.schema.attribute.*;
 import ru.nsu.fit.schema.node.*;
+import ru.nsu.fit.schema.type.SimpleType;
 import ru.nsu.fit.schema.type.ValueType;
 
 import java.util.HashMap;
@@ -85,12 +87,23 @@ public class DataToSchemeTranslator {
                 Attribute attribute = elementNode.getAttributeByName(SchemaNames.BASETYPE);
                 if (attribute != null) {
                     SchemaValueNode schemaValueNode = new SchemaValueNode();
+                    ValueType valueType = null;
                     switch (attribute.getValue()) {
-                        case "string" -> schemaValueNode.setType(ValueType.STRING);
-                        case "int" -> schemaValueNode.setType(ValueType.INT);
-                        case "double" -> schemaValueNode.setType(ValueType.DOUBLE);
+                        case "string" -> valueType = ValueType.STRING;
+                        case "int" -> valueType = ValueType.INT;
+                        case "double" -> valueType = ValueType.DOUBLE;
+                        default -> throw new IllegalSchemaException("Value type " + attribute.getValue() + " is not supported.");
                     }
+                    schemaValueNode.setType(valueType);
                     schemaValueNode = (SchemaValueNode) setOccurs(schemaValueNode, elementNode);
+
+                    Attribute patternAttr = elementNode.getAttributeByName("pattern");
+                    String pattern = (patternAttr != null) ? patternAttr.getValue() : null;
+
+
+                    SimpleType simpleType = new SimpleType(valueType, pattern);
+                    schemaValueNode.setSimpleType(simpleType);
+
                     root.addChildNode(schemaValueNode);
                 }
                 if (elementNode.getChildrenNumber() > 0) {
