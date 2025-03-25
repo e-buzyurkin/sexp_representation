@@ -167,7 +167,7 @@ public class DataToSchemeTranslator {
 
     private SchemaNode getSchema() throws IllegalSchemaException {
         if (schema == null || schema.getChildrenNumber() != 1) {
-            throw new Exception("schema must have exactly 1 not complex type element");
+            throw new IllegalSchemaException("schema must have exactly 1 not complex type element");
         }
         return schema.getChild(0);
     }
