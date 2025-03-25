@@ -29,9 +29,6 @@ public class Value {
 
     @Override
     public String toString() {
-        return "Value{" +
-                "value='" + value + '\'' +
-                ", valueType=" + valueType +
-                '}';
+        return value.toString();
     }
 }

@@ -1,11 +1,17 @@
 package ru.nsu.fit.schema.type;
 
+import lombok.Getter;
+
 import java.util.regex.Pattern;
 
 public class SimpleType {
+    @Getter
     private final ValueType valueType;
     private final String pattern;
+
     private Pattern regexPattern;
+    private double min;
+    private double max;
 
     public SimpleType(ValueType valueType, String pattern) {
         this.valueType = valueType;
@@ -18,9 +24,11 @@ public class SimpleType {
         if (valueType == ValueType.STRING) {
             regexPattern = Pattern.compile(pattern);
         } else if (valueType == ValueType.INT) {
-            regexPattern = Pattern.compile(pattern);
+            min = Double.parseDouble(pattern.split(" ")[0]);
+            max = Double.parseDouble(pattern.split(" ")[1]);
         } else if (valueType == ValueType.DOUBLE) {
-            regexPattern = Pattern.compile(pattern);
+            min = Double.parseDouble(pattern.split(" ")[0]);
+            max = Double.parseDouble(pattern.split(" ")[1]);
         }
     }
 
@@ -29,7 +37,11 @@ public class SimpleType {
         return regexPattern.matcher(value).matches();
     }
 
-    public ValueType getValueType() {
-        return valueType;
+    public boolean validate(long value) {
+        return value >= min && value <= max;
+    }
+
+    public boolean validate(double value) {
+        return value >= min && value <= max;
     }
 }

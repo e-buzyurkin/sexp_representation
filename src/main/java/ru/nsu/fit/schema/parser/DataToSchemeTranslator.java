@@ -3,6 +3,7 @@ package ru.nsu.fit.schema.parser;
 import ru.nsu.fit.data.node.Attribute;
 import ru.nsu.fit.data.node.ElementNode;
 import ru.nsu.fit.data.node.Node;
+import ru.nsu.fit.data.node.Value;
 import ru.nsu.fit.exceptions.IllegalSchemaException;
 import ru.nsu.fit.names.SchemaNames;
 import ru.nsu.fit.schema.attribute.*;
@@ -86,12 +87,23 @@ public class DataToSchemeTranslator {
                 Attribute attribute = elementNode.getAttributeByName(SchemaNames.BASETYPE);
                 if (attribute != null) {
                     SchemaValueNode schemaValueNode = new SchemaValueNode();
+                    ValueType valueType = null;
                     switch (attribute.getValue()) {
-                        case "string" -> schemaValueNode.setType(ValueType.STRING);
-                        case "int" -> schemaValueNode.setType(ValueType.INT);
-                        case "double" -> schemaValueNode.setType(ValueType.DOUBLE);
+                        case "string" -> valueType = ValueType.STRING;
+                        case "int" -> valueType = ValueType.INT;
+                        case "double" -> valueType = ValueType.DOUBLE;
+                        default -> throw new IllegalSchemaException("Value type " + attribute.getValue() + " is not supported.");
                     }
+                    schemaValueNode.setType(valueType);
                     schemaValueNode = (SchemaValueNode) setOccurs(schemaValueNode, elementNode);
+
+                    Attribute patternAttr = elementNode.getAttributeByName("pattern");
+                    String pattern = (patternAttr != null) ? patternAttr.getValue() : null;
+
+
+                    SimpleType simpleType = new SimpleType(valueType, pattern);
+                    schemaValueNode.setSimpleType(simpleType);
+
                     root.addChildNode(schemaValueNode);
                 }
                 if (elementNode.getChildrenNumber() > 0) {
@@ -99,39 +111,15 @@ public class DataToSchemeTranslator {
                 }
             }
             case SchemaNames.SIMPLETYPE -> {
-                Attribute typeNameAttr = elementNode.getAttributeByName(SchemaNames.TYPENAME);
-                if (typeNameAttr == null) {
+                Attribute attribute = elementNode.getAttributeByName(SchemaNames.TYPENAME);
+                if (attribute == null) {
                     throw new IllegalSchemaException("Type must have a \"type-name\" attribute.");
                 }
-                String typeName = typeNameAttr.getValue();
-
-                Attribute baseTypeAttr = elementNode.getAttributeByName(SchemaNames.BASETYPE);
-                if (baseTypeAttr == null) {
-                    throw new RuntimeException("SimpleType must have a \"base-type\" attribute.");
-                }
-
-                ValueType valueType;
-                switch (baseTypeAttr.getValue()) {
-                    case "string" -> valueType = ValueType.STRING;
-                    case "int" -> valueType = ValueType.INT;
-                    case "double" -> valueType = ValueType.DOUBLE;
-                    default -> throw new RuntimeException("Unknown base-type: " + baseTypeAttr.getValue());
-                }
-
-                String pattern = null;
-                if (valueType == ValueType.STRING) {
-                    Attribute patternAttr = elementNode.getAttributeByName("pattern");
-                    pattern = (patternAttr != null) ? patternAttr.getValue() : null;
-                }
-
-                SimpleType simpleType = new SimpleType(valueType, pattern);
-
+                String typeName = attribute.getValue();
+                attribute = elementNode.getAttributeByName(SchemaNames.ELEMENTNAME);
                 SchemaElementNode type = new SchemaElementNode();
-                type.setSimpleType(simpleType);
-
-                Attribute elementNameAttr = elementNode.getAttributeByName("element-name");
-                if (elementNameAttr != null) {
-                    type.setName(elementNameAttr.getValue());
+                if (attribute != null) {
+                    type = type.setName(attribute.getValue());
                 }
 
                 types.put(typeName, type);

@@ -31,7 +31,17 @@ public class SchemaValidator {
         }
         SimpleType simpleType = schema.getSimpleType();
         if (simpleType != null) {
-            return simpleType.validate(data.getValue().toString());
+            switch (data.getValue().getValueType()) {
+                case STRING -> {
+                    return simpleType.validate(data.getValue().toString());
+                }
+                case INT -> {
+                    return simpleType.validate((long) data.getValue().getValue());
+                }
+                case DOUBLE -> {
+                    return simpleType.validate((double) data.getValue().getValue());
+                }
+            }
         }
 
         return true;
@@ -43,16 +53,16 @@ public class SchemaValidator {
         }
         for (SchemaAttribute attribute : schema.getAttributes()) {
             switch (attribute.getUse()) {
-                case REQUIRED:
+                case REQUIRED -> {
                     if (data.getAttributeByName(attribute.getName()) == null) {
                         return false;
                     }
-                    break;
-                case PROHIBITED:
+                }
+                case PROHIBITED -> {
                     if (data.getAttributeByName(attribute.getName()) != null) {
                         return false;
                     }
-                    break;
+                }
             }
         }
         int dataChildrenNumber = data.getChildrenNumber();
