@@ -1,9 +1,14 @@
 package ru.nsu.fit.schema.attribute;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.security.InvalidParameterException;
 
+@Getter
 public class SchemaAttribute {
     private String name;
+    @Setter
     private AttributeUse use;
 
     public SchemaAttribute(String name) {
@@ -23,15 +28,4 @@ public class SchemaAttribute {
         this.name = name;
     }
 
-    public void setUse(AttributeUse use) {
-        this.use = use;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public AttributeUse getUse() {
-        return use;
-    }
 }
