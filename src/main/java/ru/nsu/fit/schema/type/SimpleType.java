@@ -17,11 +17,16 @@ public class SimpleType {
         if (pattern == null) return;
         if (valueType == ValueType.STRING) {
             regexPattern = Pattern.compile(pattern);
+        } else if (valueType == ValueType.INT) {
+            regexPattern = Pattern.compile(pattern);
+        } else if (valueType == ValueType.DOUBLE) {
+            regexPattern = Pattern.compile(pattern);
         }
     }
 
     public boolean validate(String value) {
-        return regexPattern == null || regexPattern.matcher(value).matches();
+        if (regexPattern == null) return true;
+        return regexPattern.matcher(value).matches();
     }
 
     public ValueType getValueType() {

@@ -7,6 +7,7 @@ import ru.nsu.fit.schema.attribute.SchemaAttribute;
 import ru.nsu.fit.schema.node.SchemaElementNode;
 import ru.nsu.fit.schema.node.SchemaNode;
 import ru.nsu.fit.schema.node.SchemaValueNode;
+import ru.nsu.fit.schema.type.SimpleType;
 import ru.nsu.fit.schema.type.ValueType;
 
 public class SchemaValidator {
@@ -25,10 +26,15 @@ public class SchemaValidator {
 
     private static boolean validateAsValue(ValueNode data, SchemaValueNode schema) {
         ValueType expectedType = schema.getType();
-        if (expectedType == null) {
-            return true;
+        if (expectedType != null && data.getValue().getValueType() != expectedType) {
+            return false;
         }
-        return data.getValue().getValueType() == expectedType;
+        SimpleType simpleType = schema.getSimpleType();
+        if (simpleType != null) {
+            return simpleType.validate(data.getValue().toString());
+        }
+
+        return true;
     }
 
     private static boolean validateAsElement(ElementNode data, SchemaElementNode schema) {
@@ -37,16 +43,16 @@ public class SchemaValidator {
         }
         for (SchemaAttribute attribute : schema.getAttributes()) {
             switch (attribute.getUse()) {
-                case REQUIRED -> {
+                case REQUIRED:
                     if (data.getAttributeByName(attribute.getName()) == null) {
                         return false;
                     }
-                }
-                case PROHIBITED -> {
+                    break;
+                case PROHIBITED:
                     if (data.getAttributeByName(attribute.getName()) != null) {
                         return false;
                     }
-                }
+                    break;
             }
         }
         int dataChildrenNumber = data.getChildrenNumber();
