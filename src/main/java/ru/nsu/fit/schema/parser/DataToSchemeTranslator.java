@@ -104,7 +104,26 @@ public class DataToSchemeTranslator {
                         case "int" -> schemaValueNode.setValueType(ValueType.INT);
                         case "double" -> schemaValueNode.setValueType(ValueType.DOUBLE);
                     }
+                    attribute = elementNode.getAttributeByName("minOccurs");
+                    if (attribute != null) {
+                        int minOccurs = Integer.parseInt(attribute.getValue());
+                        attribute = elementNode.getAttributeByName("maxOccurs");
+                        if (attribute != null) {
+                            if (attribute.getValue().equals("unbounded")) {
+                                schemaValueNode.setMinOccursWithMaxOccursUnbounded(minOccurs);
+                            } else {
+                                schemaValueNode.setOccurs(
+                                        minOccurs,
+                                        Integer.parseInt(attribute.getValue()));
+                            }
+                        } else {
+                            throw new RuntimeException("Both minOccurs and maxOccurs must be specified.");
+                        }
+                    }
                     root.addChildNode(schemaValueNode);
+                }
+                if (elementNode.getChildrenNumber() > 0) {
+                    throw new RuntimeException("Value cannot have any nested elements.");
                 }
             }
             case "simple-type" -> {
