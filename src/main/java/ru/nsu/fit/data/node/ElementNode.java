@@ -8,7 +8,7 @@ import java.util.*;
 public class ElementNode extends Node {
     @Getter
     private final List<Attribute> attributes = new ArrayList<>();
-    private final List<Node> childNodes = new ArrayList<>();
+    protected final List<Node> childNodes = new ArrayList<>();
     @Getter
     @Setter
     private String name;
@@ -49,13 +49,14 @@ public class ElementNode extends Node {
     }
 
 
-    public void addChildNode(Node node) {
+    public ElementNode addChildNode(Node node) {
         Objects.requireNonNull(node, "Child node cannot be null");
         if (node.getParent() != null) {
             throw new IllegalArgumentException("Node already has a parent");
         }
         childNodes.add(node);
         node.setParent(this);
+        return this;
     }
 
 

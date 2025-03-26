@@ -2,12 +2,15 @@ package ru.nsu.fit;
 
 import ru.nsu.fit.data.node.*;
 import ru.nsu.fit.data.*;
+import ru.nsu.fit.path.Context;
+import ru.nsu.fit.path.Path;
 import ru.nsu.fit.schema.node.SchemaNode;
 import ru.nsu.fit.schema.parser.SchemaReader;
 import ru.nsu.fit.schema.validator.SchemaValidator;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Collection;
 
 public class Main {
     static private void showTheData(Node node, String prefix) {
@@ -35,7 +38,19 @@ public class Main {
 
         boolean isValid = SchemaValidator.validate(dataNode, schemaNode);
         System.out.println("Data validation result: " + isValid);
-
         showTheData(dataNode, "");
+
+
+        Path path = Path.compile("//tree/@value");
+        Context context = new Context(dataNode);
+        Collection<Node> res = path.evaluate(context);
+        int n = 0;
+        for (Node i : res) {
+            ++n;
+            System.out.println(n + ": ");
+            showTheData(i, "   ");
+        }
+
+
     }
 }
