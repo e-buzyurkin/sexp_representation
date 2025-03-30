@@ -1,7 +1,7 @@
 (schema
     (simple-type {type-name="apples"}
         (value {base-type="string" pattern="apple .*"}))
-    (element {name="garden"}
+    (element {name="garden" minOccurs="1" maxOccurs="2"}
         (attribute {name="name" use="optional"})
         (attribute {name="location" use="optional"})
 

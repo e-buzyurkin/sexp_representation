@@ -1,0 +1,7 @@
+(constructor
+    (rect {color="red"})
+    (rect {color="blue"})
+    (circle {color="blue"})
+    (rect {color="white"})
+    (circle {color="blue"})
+)

@@ -1,5 +1,14 @@
 package ru.nsu.fit.data;
 
+import ru.nsu.fit.data.node.Attribute;
+import ru.nsu.fit.data.node.ElementNode;
+import ru.nsu.fit.data.node.Node;
+import ru.nsu.fit.data.node.ValueNode;
+import ru.nsu.fit.schema.attribute.SchemaAttribute;
+import ru.nsu.fit.schema.node.SchemaElementNode;
+import ru.nsu.fit.schema.node.SchemaNode;
+import ru.nsu.fit.schema.node.SchemaValueNode;
+
 public class Util {
     public static String processEscapingCharsFromInput(String s) {
         StringBuilder result = new StringBuilder();
@@ -68,5 +77,47 @@ public class Util {
         }
         result.append("\"");
         return result.toString();
+    }
+
+    public static String showTheData(Node node, String prefix) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(prefix);
+        if (node.isElement()) {
+            ElementNode elementNode = (ElementNode) node;
+            sb.append("element ").append(elementNode.getName());
+            for (Attribute attr : elementNode.getAttributes()) {
+                sb.append(" ").append(attr.getName()).append("=").append(attr.getValue());
+            }
+            sb.append('\n');
+            String newPrefix = prefix + "\t";
+            for (int i = 0; i < elementNode.getChildrenNumber(); ++i) {
+                sb.append(showTheData(elementNode.getChild(i), newPrefix));
+            }
+        } else {
+            ValueNode valueNode = (ValueNode) node;
+            sb.append("value ").append(valueNode.getValue()).append('\n');
+        }
+        return sb.toString();
+    }
+
+    public static String showTheData(SchemaNode node, String prefix) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(prefix);
+        if (node.isElement()) {
+            SchemaElementNode elementNode = (SchemaElementNode) node;
+            sb.append("element ").append(elementNode.getName());
+            for (SchemaAttribute attr : elementNode.getAttributes()) {
+                sb.append(" ").append(attr.getName());
+            }
+            sb.append('\n');
+            String newPrefix = prefix + "\t";
+            for (int i = 0; i < elementNode.getChildrenNumber(); ++i) {
+                sb.append(showTheData(elementNode.getChild(i), newPrefix));
+            }
+        } else {
+            SchemaValueNode valueNode = (SchemaValueNode) node;
+            sb.append("value ").append(valueNode.getType()).append('\n');
+        }
+        return sb.toString();
     }
 }

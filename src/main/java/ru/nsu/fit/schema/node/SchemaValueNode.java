@@ -20,6 +20,4 @@ public class SchemaValueNode extends SchemaNode {
     public boolean isElement() {
         return false;
     }
-
-    public SimpleType getSimpleType() {return simpleType;}
 }

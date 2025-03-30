@@ -1,0 +1,10 @@
+(schema
+    (element {name="constructor"}
+        (element {name="rect" minOccurs="0" maxOccurs="4"}
+            (attribute {name="color" use="required"}))
+        (element {name="triangle" minOccurs="0" maxOccurs="3"}
+                (attribute {name="color" use="required"}))
+        (element {name="circle" minOccurs="0" maxOccurs="2"}
+                (attribute {name="color" use="required"}))
+    )
+)
