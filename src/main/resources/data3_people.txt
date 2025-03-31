@@ -1,0 +1,10 @@
+(people
+    (group {gender="male"}
+        "John"
+        "Michael"
+        "Garry Potter")
+    (group {gender="female"}
+        "Alice"
+        "Emma Watson"
+        "Sophia")
+)

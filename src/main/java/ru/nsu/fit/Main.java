@@ -17,8 +17,8 @@ import static ru.nsu.fit.data.Util.showTheData;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Node dataNode = DataReader.parseData(new FileReader("src/main/resources/data2_construct.txt"));
-        SchemaNode schemaNode = SchemaReader.parseSchema(new FileReader("src/main/resources/data2_construct_schema.txt"));
+        Node dataNode = DataReader.parseData(new FileReader("src/main/resources/data3_people.txt"));
+        SchemaNode schemaNode = SchemaReader.parseSchema(new FileReader("src/main/resources/data3_people_schema.txt"));
 
         boolean isValid = SchemaValidator.validate(dataNode, schemaNode);
         System.out.println("Data validation result: " + isValid);
