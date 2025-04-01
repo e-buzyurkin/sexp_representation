@@ -2,8 +2,8 @@
     (simple-type {type-name="names"}
         (value {base-type="string" pattern="[A-Z][a-z]+( [A-Z][a-z]+)*"}))
 
-    (element {name="people" minOccurs="1" maxOccurs="1"}
-        (element {name="group" minOccurs="1" maxOccurs="unbounded" type="names"}
+    (element {name="people"}
+        (element {name="group" minOccurs="1" maxOccurs="2" type="names"}
             (attribute {name="gender" use="required"}))
     )
 )
