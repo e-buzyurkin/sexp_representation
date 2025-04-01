@@ -9,4 +9,9 @@ public class ValidationFailException extends Exception {
         super(message + "\n" + "Data: " + Util.showTheData(node, "")
                 + "Schema: " + Util.showTheData(schemaNode, ""));
     }
+
+    public ValidationFailException(Object value, String pattern, String message) {
+        super(message + "\n" + "expected: " + pattern + "\n" + "actual: " + value.toString());
+
+    }
 }

@@ -1,6 +1,7 @@
 package ru.nsu.fit.schema.type;
 
 import lombok.Getter;
+import ru.nsu.fit.exceptions.ValidationFailException;
 
 import java.util.regex.Pattern;
 
@@ -37,16 +38,27 @@ public class SimpleType {
         }
     }
 
-    public boolean validate(String value) {
-        if (regexPattern == null) return true;
-        return regexPattern.matcher(value).matches();
+    public boolean validate(String value) throws ValidationFailException {
+        if (regexPattern == null) {
+            return true;
+        }
+        if (regexPattern.matcher(value).matches()) {
+            return true;
+        }
+        throw new ValidationFailException(value, pattern, "Pattern mismatch");
     }
 
-    public boolean validate(long value) {
-        return value >= min && value <= max;
+    public boolean validate(long value) throws ValidationFailException {
+        if (value >= min && value <= max) {
+            return true;
+        }
+        throw new ValidationFailException(value, pattern, "Pattern mismatch");
     }
 
-    public boolean validate(double value) {
-        return value >= min && value <= max;
+    public boolean validate(double value) throws ValidationFailException {
+        if (value >= min && value <= max) {
+            return true;
+        }
+        throw new ValidationFailException(value, pattern, "Pattern mismatch");
     }
 }
